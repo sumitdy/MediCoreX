@@ -1,0 +1,6 @@
+@MediCoreX.Api_HostAddress = http://localhost:5038
+
+GET {{MediCoreX.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
