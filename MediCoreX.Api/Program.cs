@@ -1,8 +1,11 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MediCoreX.Api.Data;
 using MediCoreX.Api.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using MediCoreX.Api.Configurations;
 using MediCoreX.Api.Middlewares;
 using System.Text;
 
@@ -11,7 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services
 builder.Services.AddControllers();
-
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddDbContext<MediCoreXDbContext>(options =>
 {
     options.UseMySql(

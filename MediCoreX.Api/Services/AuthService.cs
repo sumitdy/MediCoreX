@@ -4,6 +4,7 @@ using MediCoreX.Api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace MediCoreX.Api.Services
 {
     public class AuthService : IAuthService
@@ -25,22 +26,23 @@ namespace MediCoreX.Api.Services
 
 
         public async Task RegisterAsync(RegisterDto dto)
-        {
-           if (await _context.Users.AnyAsync(u => u.Email == dto.Email))
-               throw new Exception("User already exists");
+{
+          if (await _context.Users.AnyAsync(u => u.Email == dto.Email))
+          throw new Exception("User already exists");
 
-            var user = new User
+             var user = new User
         {
             FullName = dto.FullName,
             Email = dto.Email,
-            Role = string.IsNullOrEmpty(dto.Role) ? "User" : dto.Role
+            Role = "User"
         };
 
-            user.PasswordHash = _hasher.HashPassword(user, dto.Password);
+             user.PasswordHash = _hasher.HashPassword(user, dto.Password);
 
-            _context.Users.Add(user);
-               await _context.SaveChangesAsync();
+             _context.Users.Add(user);
+            await _context.SaveChangesAsync();
         }
+
 
 
         public async Task<string> LoginAsync(LoginDto dto)
