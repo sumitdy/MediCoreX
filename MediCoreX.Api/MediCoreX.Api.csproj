@@ -4,6 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>medicorex-api-9f27c3b1-0a4f-4f3c-9ff5-fec4cc178910</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
