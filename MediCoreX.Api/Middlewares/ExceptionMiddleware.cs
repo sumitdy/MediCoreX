@@ -55,6 +55,11 @@ namespace MediCoreX.Api.Middlewares
                     response.Message = ex.Message;
                     break;
 
+                case UnauthorizedException:
+                    response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    response.Message = ex.Message;
+                    break;
+
                 default:
                     response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     response.Message = "Something went wrong";

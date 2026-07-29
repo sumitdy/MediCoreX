@@ -1,5 +1,6 @@
 using MediCoreX.Api.Data;
 using MediCoreX.Api.DTOs;
+using MediCoreX.Api.Exceptions;
 using MediCoreX.Api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,7 @@ namespace MediCoreX.Api.Services
         public async Task RegisterAsync(RegisterDto dto)
 {
           if (await _context.Users.AnyAsync(u => u.Email == dto.Email))
-          throw new Exception("User already exists");
+          throw new BadRequestException("User already exists");
 
              var user = new User
         {
@@ -51,14 +52,14 @@ namespace MediCoreX.Api.Services
                 .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
             if (user == null)
-                throw new Exception("Invalid credentials");
+                throw new UnauthorizedException("Invalid credentials");
 
             var result = _hasher.VerifyHashedPassword(
                 user, user.PasswordHash, dto.Password
             );
 
             if (result == PasswordVerificationResult.Failed)
-                throw new Exception("Invalid credentials");
+                throw new UnauthorizedException("Invalid credentials");
 
             return _tokenService.CreateToken(user);
         }
