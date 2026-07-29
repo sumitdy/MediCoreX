@@ -9,9 +9,12 @@ It demonstrates secure authentication, role-based authorization, layered archite
 
 - 🔐 JWT Authentication
 - 👥 Role-Based Authorization (Admin / User)
-- ⚙️ Configurable Admin Limit (via appsettings.json)
-- 🧱 Layered Architecture (Controller → Service → DbContext)
+- 👤 Secure Admin Seeding using .NET User Secrets
+- 🛡 Admin-only patient management
+- ➕ Create Patient API
+- ✏️ Update Patient API
 - 📦 DTO Pattern + AutoMapper
+- ✅ FluentValidation for registration and patient requests
 - 🛡 Global Exception Handling Middleware
 - 📊 Pagination Support
 - 📝 Structured Logging
@@ -31,16 +34,30 @@ MySQL Database
 
 ---
 
-## 🔑 Role Behavior
-
 ### Admin
-- Can view all patient data
-- Can manage users
-- Restricted by configurable admin limit
+
+- Can view, create, update, and delete patient records
+- Can access Admin-only endpoints
+- Is created securely through startup seeding
 
 ### User
-- Standard access
-- Cannot self-assign admin role
+
+- Can register and log in
+- Cannot self-assign the Admin role
+- Cannot access patient-management endpoints
+
+---
+
+## 📡 Main API Endpoints
+
+| Method | Endpoint | Access |
+|---|---|---|
+| POST | `/api/auth/register` | Public |
+| POST | `/api/auth/login` | Public |
+| GET | `/api/patients` | Admin |
+| POST | `/api/patients` | Admin |
+| PUT | `/api/patients/{id}` | Admin |
+| DELETE | `/api/patients/{id}` | Admin |
 
 ---
 
