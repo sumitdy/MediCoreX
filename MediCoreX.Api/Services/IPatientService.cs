@@ -15,7 +15,8 @@ namespace MediCoreX.Api.Services
         // ✅ ONLY THIS pagination
         Task<PagedResultDto<PatientDto>> GetPagedAsync(int page, int pageSize);
 
-        Task<PatientDto> AddAsync(PatientDto dto);
+        Task<PatientDto> AddAsync(CreatePatientDto dto);
+        Task<PatientDto> UpdateAsync(int id, UpdatePatientDto dto);
         Task<bool> DeleteAsync(int id);
     }
 }

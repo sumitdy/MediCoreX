@@ -136,17 +136,46 @@ namespace MediCoreX.Api.Services
         }
 
         // 🔹 Add new patient (Admin only)
-        public async Task<PatientDto> AddAsync(PatientDto dto)
+        public async Task<PatientDto> AddAsync(CreatePatientDto dto)
         {
             _logger.LogInformation("Adding new patient: {Name}", dto.FullName);
 
-            var patient = _mapper.Map<Patient>(dto);
+            var patient = new Patient
+            {
+                FullName = dto.FullName.Trim(),
+                Age = dto.Age,
+                Gender = dto.Gender.Trim()
+            };
 
             _context.Patients.Add(patient);
             await _context.SaveChangesAsync();
 
             _logger.LogInformation(
                 "Patient added successfully with Id: {Id}", patient.Id);
+
+            return _mapper.Map<PatientDto>(patient);
+        }
+
+        // 🔹 Update patient (Admin only)
+        public async Task<PatientDto> UpdateAsync(int id, UpdatePatientDto dto)
+        {
+            _logger.LogInformation("Updating patient with Id: {Id}", id);
+
+            var patient = await _context.Patients.FindAsync(id);
+
+            if (patient == null)
+            {
+                _logger.LogWarning("Update failed. Patient not found with Id: {Id}", id);
+                throw new NotFoundException("Patient not found");
+            }
+
+            patient.FullName = dto.FullName.Trim();
+            patient.Age = dto.Age;
+            patient.Gender = dto.Gender.Trim();
+
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Patient updated successfully with Id: {Id}", id);
 
             return _mapper.Map<PatientDto>(patient);
         }

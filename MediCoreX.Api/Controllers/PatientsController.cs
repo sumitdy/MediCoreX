@@ -7,6 +7,7 @@ namespace MediCoreX.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
     public class PatientsController : ControllerBase
     {
         private readonly IPatientService _service;
@@ -16,8 +17,7 @@ namespace MediCoreX.Api.Controllers
             _service = service;
         }
 
-        // 🔓 Any authenticated user
-        [Authorize]
+        // 🔐 ADMIN ONLY — View all patients
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -25,8 +25,7 @@ namespace MediCoreX.Api.Controllers
             return Ok(result);
         }
 
-        // 🔓 Any authenticated user
-        [Authorize]
+        // 🔐 ADMIN ONLY — View a patient
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -34,8 +33,7 @@ namespace MediCoreX.Api.Controllers
             return Ok(result);
         }
 
-        // 🔓 Any authenticated user
-        [Authorize]
+        // 🔐 ADMIN ONLY — Filter by age
         [HttpGet("above-age/{age}")]
         public async Task<IActionResult> GetAboveAge(int age)
         {
@@ -43,8 +41,7 @@ namespace MediCoreX.Api.Controllers
             return Ok(result);
         }
 
-        // 🔓 Any authenticated user
-        [Authorize]
+        // 🔐 ADMIN ONLY — Filter by gender
         [HttpGet("gender/{gender}")]
         public async Task<IActionResult> GetByGender(string gender)
         {
@@ -52,8 +49,7 @@ namespace MediCoreX.Api.Controllers
             return Ok(result);
         }
 
-        // 🔓 Any authenticated user
-        [Authorize]
+        // 🔐 ADMIN ONLY — Search patients
         [HttpGet("search")]
         public async Task<IActionResult> SearchByName([FromQuery] string name)
         {
@@ -61,8 +57,7 @@ namespace MediCoreX.Api.Controllers
             return Ok(result);
         }
 
-        // 🔓 Any authenticated user
-        [Authorize]
+        // 🔐 ADMIN ONLY — Sort patients
         [HttpGet("sort")]
         public async Task<IActionResult> SortByAge([FromQuery] bool asc = true)
         {
@@ -70,8 +65,7 @@ namespace MediCoreX.Api.Controllers
             return Ok(result);
         }
 
-        // 🔓 Any authenticated user — PAGINATION
-        [Authorize]
+        // 🔐 ADMIN ONLY — Pagination
         [HttpGet("paged")]
         public async Task<IActionResult> GetPaged(
             [FromQuery] int page = 1,
@@ -82,16 +76,22 @@ namespace MediCoreX.Api.Controllers
         }
 
         // 🔐 ADMIN ONLY — Add patient
-        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Add(PatientDto dto)
+        public async Task<IActionResult> Add(CreatePatientDto dto)
         {
             var result = await _service.AddAsync(dto);
             return Ok(result);
         }
 
+        // 🔐 ADMIN ONLY — Update patient
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, UpdatePatientDto dto)
+        {
+            var result = await _service.UpdateAsync(id, dto);
+            return Ok(result);
+        }
+
         // 🔐 ADMIN ONLY — Delete patient
-        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -100,7 +100,6 @@ namespace MediCoreX.Api.Controllers
         }
 
         // 🔐 ADMIN ONLY — Demo endpoint
-        [Authorize(Roles = "Admin")]
         [HttpGet("admin-data")]
         public IActionResult AdminOnly()
         {
