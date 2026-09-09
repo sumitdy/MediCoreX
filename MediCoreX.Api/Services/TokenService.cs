@@ -1,6 +1,7 @@
 using MediCoreX.Api.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 using System.Security.Claims;
 using System.Text;
 
@@ -14,7 +15,17 @@ namespace MediCoreX.Api.Services
         {
             _config = config;
         }
+        
+        public string GenerateRefreshToken()
+        {
+          var randomNumber = new byte[64];
 
+          using var rng = RandomNumberGenerator.Create();
+
+          rng.GetBytes(randomNumber);
+
+          return Convert.ToBase64String(randomNumber);
+        }
         public string CreateToken(User user)
         {
             // 🔐 Claims = user ki identity + role

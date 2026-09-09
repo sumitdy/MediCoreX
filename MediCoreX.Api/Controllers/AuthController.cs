@@ -25,8 +25,18 @@ namespace MediCoreX.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            var token = await _authService.LoginAsync(dto);
-            return Ok(new { token });
+            var response = await _authService.LoginAsync(dto);
+
+            return Ok(response);
+        }
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh(
+            RefreshTokenRequestDto dto)
+        {
+            var response = await _authService
+                .RefreshTokenAsync(dto.RefreshToken);
+
+            return Ok(response);
         }
     }
 }
