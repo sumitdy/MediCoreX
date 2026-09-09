@@ -8,6 +8,7 @@ It demonstrates secure authentication, role-based authorization, layered archite
 ## 🚀 Features
 
 - 🔐 JWT Authentication
+- 🔄 Refresh Token Authentication with token rotation
 - 👥 Role-Based Authorization (Admin / User)
 - 👤 Secure Admin Seeding using .NET User Secrets
 - 🛡 Admin-only patient management
@@ -62,6 +63,18 @@ MySQL Database
 
 ---
 
+## 🔄 Refresh Token Flow
+
+1. Login returns an access token and refresh token.
+2. Use the access token for protected endpoints.
+3. When the access token expires, send the refresh token to:
+
+   `POST /api/auth/refresh`
+
+4. The API returns a new access token and refresh token.
+
+ ---  
+
 ## 🛠 Tech Stack
 
 - ASP.NET Core (.NET 9)
@@ -83,9 +96,7 @@ MySQL Database
 dotnet restore  
 dotnet run  
 
-Swagger will be available at:
-
-https://localhost:{port}/swagger  
+Swagger will be available at the URL shown in the terminal after starting the API. 
 
 Replace `{port}` with the port shown in your terminal after running the application.
 
