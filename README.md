@@ -58,6 +58,7 @@ MySQL Database
 | POST | `/api/patients` | Admin |
 | PUT | `/api/patients/{id}` | Admin |
 | DELETE | `/api/patients/{id}` | Admin |
+| POST | `/api/auth/refresh` | Public |
 
 ---
 
