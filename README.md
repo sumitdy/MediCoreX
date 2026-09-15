@@ -1180,8 +1180,6 @@ https://github.com/sumitdy/MediCoreX
 
 ## Sumit Dubey
 
-**Backend Developer | .NET Developer**
+**Full Stack Developer | .NET & Angular**
 
-Focused on building secure, maintainable, and scalable backend APIs using modern .NET technologies.
-
----
+Focused on building secure, maintainable, and scalable web applications using ASP.NET Core, Angular, Entity Framework Core, and MySQL.
