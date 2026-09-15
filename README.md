@@ -1,113 +1,574 @@
-# 🏥 MediCoreX – Healthcare Management REST API
+# 🏥 MediCoreX – Healthcare Management System
 
-MediCoreX is a production-style backend system built using ASP.NET Core and MySQL.
+MediCoreX is a full-stack healthcare management system built using **ASP.NET Core Web API, Angular, MySQL, and Docker**.
 
-It demonstrates secure authentication, role-based authorization, layered architecture, unit testing, containerization, and scalable backend design principles.
+The project demonstrates practical backend development concepts including secure authentication, role-based authorization, layered architecture, patient management, search, filtering, sorting, pagination, validation, global exception handling, structured logging, unit testing, and containerization.
 
 ---
 
 ## 🚀 Features
 
-- 🔐 JWT Authentication
-- 🔄 Refresh Token Authentication with token rotation
-- 👥 Role-Based Authorization (Admin / User)
-- 👤 Secure Admin Seeding using .NET User Secrets
-- 🛡 Admin-only patient management
-- ➕ Create Patient API
-- ✏️ Update Patient API
-- 📦 DTO Pattern + AutoMapper
-- ✅ FluentValidation for registration and patient requests
-- 🛡 Global Exception Handling Middleware
-- 📊 Pagination Support
-- 🔎 Search, Filtering & Sorting
-- 📝 Structured Logging
-- 🧪 Unit Testing with xUnit, Moq, and EF Core InMemory
-- 🐳 Docker & Docker Compose
-- 🐬 MySQL with Entity Framework Core
+### 🔐 Authentication & Security
+
+- JWT Authentication
+- Access Token + Refresh Token
+- Refresh Token Rotation
+- Secure password hashing
+- Role-Based Authorization
+- Admin / User roles
+- Secure Admin Seeding
+- Admin credentials managed using .NET User Secrets
+- Protected patient-management APIs
+- Automatic access-token refresh from Angular frontend
+
+### 👨‍⚕️ Patient Management
+
+- Create Patient
+- View All Patients
+- View Patient by ID
+- Update Patient
+- Delete Patient
+- Search patients by name
+- Filter patients by gender
+- Sort patients by name or age
+- Ascending / Descending sorting
+- Pagination
+- Combined Search + Filter + Sort + Pagination
+
+### 🛠 Backend
+
+- ASP.NET Core Web API
+- Layered Architecture
+- Dependency Injection
+- Entity Framework Core
+- MySQL
+- LINQ
+- DTO Pattern
+- AutoMapper
+- FluentValidation
+- Global Exception Handling Middleware
+- Custom Exceptions
+- Structured Logging
+- EF Core Code First
+- EF Core Migrations
+- Swagger / OpenAPI
+
+### 🧪 Testing
+
+- Unit Testing with xUnit
+- Mocking with Moq
+- EF Core InMemory
+- FluentValidation TestHelper
+- 47 automated tests
+
+### 🐳 Containerization
+
+- Docker
+- Docker Compose
+- Containerized ASP.NET Core API
+- Containerized MySQL database
+
+### 🖥️ Angular Frontend
+
+- Login
+- Registration
+- JWT Authentication
+- Refresh Token Handling
+- Authentication Guard
+- HTTP Interceptor
+- Dashboard
+- Patient Management
+- Add / Edit / Delete Patient
+- Search
+- Filtering
+- Sorting
+- Pagination
+- Reactive Form Validation
+- Responsive UI
 
 ---
 
-## 🏗 Architecture Overview
+# 🏗️ Architecture
+
+MediCoreX follows a layered architecture to maintain separation of concerns and make the application easier to maintain, test, and extend.
+
+```text
+                    Angular Client
+                         │
+                         ▼
+                    HTTP / REST
+                         │
+                         ▼
+                 ASP.NET Controllers
+                         │
+                         ▼
+                    Service Layer
+                         │
+                         ▼
+              Entity Framework Core
+                    DbContext
+                         │
+                         ▼
+                  MySQL Database
+```
+
+### Backend Request Flow
 
 ```text
 Client / Swagger
        ↓
-Controllers
+Controller
        ↓
 Service Layer
        ↓
-Entity Framework Core (DbContext)
+DbContext
        ↓
 MySQL Database
 ```
 
-The application follows a layered architecture to maintain separation of concerns and make the backend easier to maintain and test.
+The Service Layer contains the application/business logic, while Entity Framework Core is responsible for database access through `DbContext`.
 
 ---
 
-## 👥 Roles & Authorization
+# 📁 Project Structure
 
-### Admin
-
-- Can view patient records
-- Can create patient records
-- Can update patient records
-- Can delete patient records
-- Can access Admin-only endpoints
-- Is created securely through startup seeding
-
-### User
-
-- Can register and log in
-- Cannot self-assign the Admin role
-- Cannot access patient-management endpoints
+```text
+MediCoreX
+│
+├── MediCoreX.Api
+│   │
+│   ├── Controllers
+│   │   ├── AuthController.cs
+│   │   └── PatientsController.cs
+│   │
+│   ├── Services
+│   │   ├── AuthService.cs
+│   │   ├── PatientService.cs
+│   │   └── TokenService.cs
+│   │
+│   ├── DTOs
+│   │   ├── Auth DTOs
+│   │   └── Patient DTOs
+│   │
+│   ├── Models
+│   │   ├── User.cs
+│   │   └── Patient.cs
+│   │
+│   ├── Data
+│   │   └── MediCoreXDbContext.cs
+│   │
+│   ├── Middleware
+│   │   └── ExceptionMiddleware.cs
+│   │
+│   ├── Validators
+│   │   ├── RegisterDtoValidator.cs
+│   │   ├── CreatePatientDtoValidator.cs
+│   │   └── UpdatePatientDtoValidator.cs
+│   │
+│   ├── Mappings
+│   │   └── AutoMapper Profiles
+│   │
+│   ├── Migrations
+│   │
+│   ├── Program.cs
+│   └── appsettings.json
+│
+├── MediCoreX.Tests
+│   │
+│   ├── AuthServiceTests
+│   ├── PatientServiceTests
+│   ├── TokenServiceTests
+│   └── ValidatorTests
+│
+├── Angular Frontend
+│   │
+│   └── src
+│       └── app
+│           ├── core
+│           │   ├── models
+│           │   ├── services
+│           │   ├── guards
+│           │   └── interceptors
+│           │
+│           └── features
+│               ├── login
+│               ├── register
+│               ├── dashboard
+│               └── patients
+│
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
+```
 
 ---
 
-## 📡 Main API Endpoints
+# 👥 Roles & Authorization
 
-| Method | Endpoint | Access |
-|---|---|---|
-| POST | `/api/auth/register` | Public |
-| POST | `/api/auth/login` | Public |
-| POST | `/api/auth/refresh` | Public |
-| GET | `/api/patients` | Admin |
-| GET | `/api/patients/{id}` | Admin |
-| POST | `/api/patients` | Admin |
-| PUT | `/api/patients/{id}` | Admin |
-| DELETE | `/api/patients/{id}` | Admin |
+MediCoreX supports two roles:
 
----
+## 🔴 Admin
 
-## 🔄 Refresh Token Flow
+Admin users can:
 
-1. User logs in with email and password.
-2. API validates the credentials.
-3. API returns an access token and refresh token.
-4. Access token is used for protected API requests.
-5. When the access token expires, the client sends the refresh token to:
-   `POST /api/auth/refresh`
-6. API validates the refresh token and its expiry.
-7. API generates a new access token.
-8. API generates a new refresh token.
-9. The old refresh token is replaced with the new refresh token.
+- View patient records
+- Create patient records
+- Update patient records
+- Delete patient records
+- Access admin-only endpoints
 
-This implements refresh token rotation.
+The Admin account is created through startup seeding.
+
+Sensitive Admin configuration is managed using **.NET User Secrets**.
 
 ---
 
-## 🧪 Unit Testing
+## 🔵 User
 
-MediCoreX includes unit tests for the service layer, token generation, and request validation.
+Regular users can:
 
-### Testing Technologies
+- Register
+- Login
+- Receive access and refresh tokens
+
+Regular users cannot:
+
+- Access patient-management APIs
+- Self-assign the Admin role
+- Access Admin-only endpoints
+
+The role is controlled by the backend and is not accepted from the public registration request.
+
+---
+
+# 🔐 Authentication Flow
+
+MediCoreX uses **JWT-based authentication**.
+
+```text
+User
+ │
+ │ Login
+ ▼
+Auth API
+ │
+ │ Validate Email + Password
+ ▼
+Generate Tokens
+ │
+ ├──────────────► Access Token
+ │
+ └──────────────► Refresh Token
+```
+
+The access token is sent with protected API requests.
+
+```text
+Angular Client
+      │
+      │ Authorization: Bearer <AccessToken>
+      ▼
+ASP.NET Core API
+      │
+      ▼
+JWT Authentication
+      │
+      ▼
+Role Authorization
+      │
+      ▼
+Protected Controller
+```
+
+---
+
+# 🔄 Refresh Token Flow
+
+MediCoreX implements **Refresh Token Rotation**.
+
+### Flow
+
+```text
+1. User Login
+       ↓
+2. API validates credentials
+       ↓
+3. Access Token + Refresh Token generated
+       ↓
+4. Client uses Access Token
+       ↓
+5. Access Token expires
+       ↓
+6. Client sends Refresh Token
+       ↓
+7. API validates Refresh Token
+       ↓
+8. New Access Token generated
+       ↓
+9. New Refresh Token generated
+       ↓
+10. Old Refresh Token replaced
+```
+
+Refresh endpoint:
+
+```http
+POST /api/auth/refresh
+```
+
+The API validates the refresh token against the database and checks its expiry before generating a new token pair.
+
+---
+
+# 📡 API Endpoints
+
+## Authentication APIs
+
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| POST | `/api/auth/register` | Public | Register a new user |
+| POST | `/api/auth/login` | Public | Login and receive tokens |
+| POST | `/api/auth/refresh` | Public | Refresh access token |
+
+---
+
+## Patient APIs
+
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| GET | `/api/patients` | Admin | Get all patients |
+| GET | `/api/patients/{id}` | Admin | Get patient by ID |
+| GET | `/api/patients/above-age/{age}` | Admin | Get patients above a specific age |
+| GET | `/api/patients/gender/{gender}` | Admin | Filter patients by gender |
+| GET | `/api/patients/search?name=Amit` | Admin | Search patients by name |
+| GET | `/api/patients/sort?asc=true` | Admin | Sort patients by age |
+| GET | `/api/patients/filter` | Admin | Search, filter, sort and paginate |
+| GET | `/api/patients/paged` | Admin | Get paginated patient records |
+| GET | `/api/patients/admin-data` | Admin | Admin-only endpoint |
+| POST | `/api/patients` | Admin | Create a patient |
+| PUT | `/api/patients/{id}` | Admin | Update a patient |
+| DELETE | `/api/patients/{id}` | Admin | Delete a patient |
+
+---
+
+# 🔎 Search, Filtering, Sorting & Pagination
+
+The main patient query endpoint supports multiple query parameters.
+
+```http
+GET /api/patients/filter
+```
+
+### Supported Parameters
+
+```text
+Page
+PageSize
+Search
+Gender
+SortBy
+SortOrder
+```
+
+### Example
+
+```http
+GET /api/patients/filter?Page=1&PageSize=5&Search=Amit&Gender=Male&SortBy=age&SortOrder=asc
+```
+
+### Example Response
+
+```json
+{
+  "page": 1,
+  "pageSize": 5,
+  "totalRecords": 2,
+  "totalPages": 1,
+  "data": [
+    {
+      "id": 11,
+      "fullName": "Amit Singh",
+      "age": 26,
+      "gender": "Male"
+    }
+  ]
+}
+```
+
+The API builds the query using LINQ and applies filtering, sorting, counting, `Skip()` and `Take()` before retrieving the requested records.
+
+---
+
+# 🛡️ Validation
+
+MediCoreX uses **FluentValidation** for request validation.
+
+Validators are implemented for:
+
+- Register DTO
+- Create Patient DTO
+- Update Patient DTO
+
+Validation includes:
+
+- Required fields
+- Minimum / maximum field lengths
+- Email format
+- Password length
+- Valid age range
+- Allowed gender values
+
+ASP.NET Core `[ApiController]` model validation is also used for request parameter validation.
+
+---
+
+# 🛡️ Global Exception Handling
+
+The application includes global exception-handling middleware.
+
+Instead of handling exceptions separately in every controller, unexpected exceptions are processed centrally.
+
+```text
+Request
+   ↓
+Controller
+   ↓
+Service
+   ↓
+Exception
+   ↓
+Global Exception Middleware
+   ↓
+Error Response
+```
+
+Custom exceptions are also used for application-specific error scenarios.
+
+---
+
+# 📝 Structured Logging
+
+MediCoreX uses `ILogger` for structured application logging.
+
+Logging helps with:
+
+- Tracking application events
+- Debugging
+- Error investigation
+- Understanding service operations
+- Production issue analysis
+
+---
+
+# 🧩 DTO Pattern & AutoMapper
+
+DTOs are used to control the data exchanged between the client and API.
+
+The application separates API request/response models from database entities.
+
+Example:
+
+```text
+Client
+   ↓
+CreatePatientDto
+   ↓
+PatientService
+   ↓
+Patient Entity
+   ↓
+Entity Framework Core
+   ↓
+MySQL
+```
+
+AutoMapper is used for mapping between DTOs and entity models where appropriate.
+
+This helps keep API contracts separate from database entities.
+
+---
+
+# 💉 Dependency Injection
+
+MediCoreX uses ASP.NET Core's built-in Dependency Injection container.
+
+Services such as:
+
+- `IPatientService`
+- `IAuthService`
+- `ITokenService`
+
+are registered and injected where required.
+
+Example:
+
+```text
+PatientsController
+       ↓
+IPatientService
+       ↓
+PatientService
+       ↓
+MediCoreXDbContext
+```
+
+Dependency Injection improves:
+
+- Separation of concerns
+- Testability
+- Maintainability
+- Loose coupling
+
+---
+
+# 🗄️ Database
+
+MediCoreX uses **MySQL** with **Entity Framework Core**.
+
+### Database Technologies
+
+- MySQL
+- Entity Framework Core
+- Code First
+- EF Core Migrations
+- LINQ
+
+Database schema changes are managed through EF Core migrations.
+
+### Create Migration
+
+```bash
+dotnet ef migrations add MigrationName
+```
+
+### Apply Migration
+
+```bash
+dotnet ef database update
+```
+
+---
+
+# 🧪 Unit Testing
+
+MediCoreX contains automated tests covering services, token generation, and request validation.
+
+## Testing Technologies
 
 - xUnit
 - Moq
 - Entity Framework Core InMemory
 - FluentValidation TestHelper
 
-### AuthService Tests
+## Current Test Suite
+
+```text
+47 Tests
+```
+
+---
+
+## 🔐 AuthService Tests
 
 The following scenarios are covered:
 
@@ -120,7 +581,9 @@ The following scenarios are covered:
 - Refresh token with invalid token
 - Refresh token with expired token
 
-### PatientService Tests
+---
+
+## 👨‍⚕️ PatientService Tests
 
 The following scenarios are covered:
 
@@ -137,7 +600,9 @@ The following scenarios are covered:
 - Delete existing patient
 - Delete non-existing patient
 
-### Validator Tests
+---
+
+## ✅ Validator Tests
 
 Validators are tested for:
 
@@ -154,7 +619,9 @@ Validation scenarios include:
 - Valid age range
 - Allowed gender values
 
-### TokenService Tests
+---
+
+## 🔑 TokenService Tests
 
 The following scenarios are covered:
 
@@ -164,7 +631,9 @@ The following scenarios are covered:
 - JWT claims
 - JWT expiry
 
-### Run Unit Tests
+---
+
+## ▶️ Run Unit Tests
 
 From the project root:
 
@@ -172,24 +641,125 @@ From the project root:
 dotnet test MediCoreX.Tests/MediCoreX.Tests.csproj
 ```
 
-Current test suite:
+Or:
 
-```text
-47 Tests
+```bash
+dotnet test
 ```
 
 ---
 
-## 🐳 Docker
+# 🖥️ Angular Frontend
+
+MediCoreX includes an Angular frontend that consumes the ASP.NET Core REST APIs.
+
+## Frontend Features
+
+### 🔐 Authentication
+
+- Login
+- Registration
+- JWT access token handling
+- Refresh token handling
+- Automatic token refresh
+- Logout
+- Authentication Guard
+- HTTP Interceptor
+
+### 📊 Dashboard
+
+- Total patient count
+- Male patient count
+- Female patient count
+- Recent patients
+- View All Patients navigation
+
+### 👨‍⚕️ Patient Management
+
+- Patient listing
+- Add patient
+- Edit patient
+- Delete patient
+- Search by name
+- Gender filtering
+- Sorting
+- Pagination
+- Reactive form validation
+
+---
+
+# 🔒 Angular Authentication Flow
+
+The Angular frontend sends the access token with protected API requests.
+
+When an API request returns `401 Unauthorized` because the access token has expired, the HTTP interceptor attempts to refresh the token.
+
+```text
+Angular Request
+      ↓
+Access Token
+      ↓
+ASP.NET Core API
+      ↓
+401 Unauthorized
+      ↓
+HTTP Interceptor
+      ↓
+Refresh Token
+      ↓
+/api/auth/refresh
+      ↓
+New Access Token
+      ↓
+Retry Original Request
+```
+
+If the refresh token is invalid or expired, the user is logged out and redirected to the login page.
+
+---
+
+# 🧭 Angular Route Protection
+
+Protected pages use an authentication guard.
+
+```text
+User
+  ↓
+Angular Route
+  ↓
+Auth Guard
+  │
+  ├── Token exists → Allow access
+  │
+  └── Token missing → Redirect to Login
+```
+
+This provides frontend-level route protection while the backend remains responsible for actual API authorization.
+
+---
+
+# 🐳 Docker
 
 MediCoreX is containerized using Docker.
 
 The project includes:
 
-- `Dockerfile` for building the ASP.NET Core API image
-- `docker-compose.yml` for running the API and MySQL together
+- `Dockerfile`
+- `docker-compose.yml`
 
-### Run with Docker Compose
+Docker Compose is used to run the ASP.NET Core API and MySQL database together.
+
+```text
+Docker Compose
+      │
+      ├── MediCoreX API
+      │
+      └── MySQL Database
+```
+
+---
+
+## ▶️ Run with Docker Compose
 
 From the project root:
 
@@ -197,24 +767,25 @@ From the project root:
 docker compose up --build
 ```
 
-This starts:
+---
 
-- MediCoreX API
-- MySQL database
-
-### Run in Detached Mode
+## ▶️ Run in Detached Mode
 
 ```bash
 docker compose up -d --build
 ```
 
-### Check Running Containers
+---
+
+## 🔍 Check Running Containers
 
 ```bash
 docker compose ps
 ```
 
-### Stop Containers
+---
+
+## 🛑 Stop Containers
 
 ```bash
 docker compose down
@@ -222,61 +793,104 @@ docker compose down
 
 ---
 
-## 🛠 Tech Stack
+## 🔄 Rebuild Containers
 
-### Backend
+After making backend changes:
 
-- ASP.NET Core (.NET 9)
+```bash
+docker compose down
+docker compose up --build
+```
+
+---
+
+# 🛠️ Tech Stack
+
+## Backend
+
 - C#
+- ASP.NET Core Web API
+- .NET 9
 - Entity Framework Core
 - MySQL
 - LINQ
+- Dependency Injection
 
-### Authentication & Security
+## Authentication & Security
 
 - JWT Authentication
+- Access Tokens
 - Refresh Tokens
+- Refresh Token Rotation
 - Role-Based Authorization
 - Password Hashing
 - .NET User Secrets
 
-### Validation & Mapping
+## Validation & Mapping
 
 - FluentValidation
 - AutoMapper
+- DTO Pattern
 
-### Testing
+## Error Handling & Logging
+
+- Global Exception Handling Middleware
+- Custom Exceptions
+- `ILogger` Structured Logging
+
+## Frontend
+
+- Angular
+- TypeScript
+- HTML
+- SCSS
+- Angular Router
+- Reactive Forms
+- HttpClient
+- HTTP Interceptor
+- Route Guards
+
+## Testing
 
 - xUnit
 - Moq
 - EF Core InMemory
 - FluentValidation TestHelper
 
-### DevOps / Containerization
+## Database
+
+- MySQL
+- Entity Framework Core
+- EF Core Migrations
+
+## DevOps
 
 - Docker
 - Docker Compose
 
-### API Documentation
+## API Documentation
 
-- Swagger / OpenAPI
+- Swagger
+- OpenAPI
 
 ---
 
-## ▶️ How to Run Locally
+# ▶️ How to Run Locally
 
-### Prerequisites
+## Prerequisites
 
 Make sure the following are installed:
 
 - .NET 9 SDK
+- Node.js
+- Angular CLI
 - Docker
 - Docker Compose
-- MySQL (if running without Docker)
+- MySQL (only required when running the database outside Docker)
 
 ---
 
-### Option 1: Run with Docker
+# Option 1: Run Using Docker
 
 Clone the repository:
 
@@ -290,25 +904,25 @@ Navigate to the project:
 cd MediCoreX
 ```
 
-Start the application:
+Start the backend and database:
 
 ```bash
 docker compose up --build
 ```
 
-The API and MySQL database will start together.
+This starts the ASP.NET Core API and MySQL database through Docker Compose.
 
 ---
 
-### Option 2: Run without Docker
+# Option 2: Run Backend Without Docker
 
-Restore dependencies:
+Restore .NET dependencies:
 
 ```bash
 dotnet restore
 ```
 
-Update the MySQL connection string in `appsettings.json` if required.
+Configure the MySQL connection string according to your local environment.
 
 Apply EF Core migrations:
 
@@ -322,64 +936,252 @@ Run the API:
 dotnet run --project MediCoreX.Api
 ```
 
-Swagger will be available at the URL shown in the terminal after starting the API.
+Swagger will be available at the URL displayed in the terminal after the API starts.
 
 ---
 
-## 🗄️ Database
+# Option 3: Run Angular Frontend
 
-The application uses:
+Navigate to the Angular project directory:
 
-- MySQL
-- Entity Framework Core
-- Code First approach
-- EF Core migrations
+```bash
+cd <your-angular-project-directory>
+```
 
-Database schema changes are managed using EF Core migrations.
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the Angular development server:
+
+```bash
+ng serve
+```
+
+The frontend will be available at the local URL shown by Angular CLI.
+
+The Angular application communicates with the ASP.NET Core API using the configured API base URL.
 
 ---
 
-## 📌 Learning Highlights
+# 📖 API Documentation
 
-This project demonstrates:
+Swagger / OpenAPI is included for API exploration and testing.
 
-- Clean separation of concerns
-- Layered architecture
+After starting the backend, open the Swagger URL displayed in the terminal.
+
+Swagger can be used to:
+
+- View available endpoints
+- Inspect request models
+- Send API requests
+- Test authentication
+- Test authorization
+- Test patient CRUD operations
+- Test search, filtering, sorting and pagination
+
+---
+
+# 🔐 Configuration & Secrets
+
+Sensitive configuration should not be committed to source control.
+
+For local development, **.NET User Secrets** can be used to store sensitive values such as Admin credentials and other development secrets.
+
+Initialize User Secrets:
+
+```bash
+dotnet user-secrets init
+```
+
+Example:
+
+```bash
+dotnet user-secrets set "AdminSettings:Email" "admin@example.com"
+```
+
+Sensitive credentials should never be hardcoded or committed to GitHub.
+
+---
+
+# 🧠 Learning Highlights
+
+This project demonstrates practical experience with:
+
+- ASP.NET Core Web API
+- REST API development
+- Layered Architecture
 - Dependency Injection
-- JWT authentication
-- Role-based authorization
-- Refresh token rotation
-- Secure password hashing
-- DTO pattern
+- Service Layer
+- Entity Framework Core
+- MySQL
+- LINQ
+- Code First approach
+- EF Core Migrations
+- DTO Pattern
 - AutoMapper
+- JWT Authentication
+- Access Tokens
+- Refresh Tokens
+- Refresh Token Rotation
+- Role-Based Authorization
+- Password Hashing
 - FluentValidation
-- Global exception handling middleware
-- Custom exceptions
-- Structured logging
-- Pagination
-- Searching
+- Global Exception Handling
+- Custom Exceptions
+- Structured Logging
+- Search
 - Filtering
 - Sorting
-- Unit testing
-- Mocking with Moq
-- EF Core InMemory testing
-- Docker containerization
+- Pagination
+- Angular
+- Reactive Forms
+- Route Guards
+- HTTP Interceptors
+- Unit Testing
+- xUnit
+- Moq
+- EF Core InMemory
+- Docker
 - Docker Compose
-- MySQL database integration
-- Entity Framework Core migrations
+- Swagger / OpenAPI
 
 ---
 
-## 🎯 Project Purpose
+# 🎯 Project Purpose
 
-MediCoreX was developed as a production-style backend project to demonstrate practical experience with modern .NET backend development, API security, database integration, testing, and containerization.
+MediCoreX was developed as an **interview-focused production-style project** to demonstrate practical experience with modern .NET backend development.
+
+The project focuses on implementing real-world backend concepts such as:
+
+- Secure authentication
+- Role-based authorization
+- Database-driven APIs
+- Business logic separation
+- Request validation
+- Global error handling
+- Structured logging
+- Unit testing
+- API documentation
+- Containerization
+
+The Angular frontend provides a practical interface for consuming and demonstrating the backend APIs.
 
 ---
 
-## 👨‍💻 Author
+# 📊 Project Summary
 
-**Sumit Dubey**
+| Area | Technology |
+|---|---|
+| Backend | ASP.NET Core Web API |
+| Framework | .NET 9 |
+| Language | C# |
+| Frontend | Angular |
+| Database | MySQL |
+| ORM | Entity Framework Core |
+| Authentication | JWT |
+| Token Management | Access + Refresh Tokens |
+| Authorization | Role-Based Authorization |
+| Validation | FluentValidation |
+| Mapping | AutoMapper |
+| Testing | xUnit + Moq |
+| Test Database | EF Core InMemory |
+| API Documentation | Swagger / OpenAPI |
+| Containerization | Docker + Docker Compose |
+| Architecture | Layered Architecture |
 
-Backend Developer
+---
 
-Focused on building secure, scalable, and maintainable backend APIs.
+# 📌 Key Implementation Highlights
+
+## Authentication
+
+```text
+Register
+   ↓
+Password Hashing
+   ↓
+Login
+   ↓
+JWT Access Token
++
+Refresh Token
+```
+
+## Authorization
+
+```text
+JWT Token
+   ↓
+Role Claim
+   ↓
+[Authorize(Roles = "Admin")]
+   ↓
+Protected Patient APIs
+```
+
+## Patient Query
+
+```text
+Search
+   ↓
+Gender Filter
+   ↓
+Sorting
+   ↓
+Count
+   ↓
+Pagination
+   ↓
+Database
+```
+
+## Error Handling
+
+```text
+Controller
+   ↓
+Service
+   ↓
+Exception
+   ↓
+Global Middleware
+   ↓
+Error Response
+```
+
+## Testing
+
+```text
+Service / Validator
+       ↓
+Unit Test
+       ↓
+xUnit
+       ↓
+Moq / EF Core InMemory
+       ↓
+Automated Test Result
+```
+
+---
+
+# 🔗 Repository
+
+GitHub Repository:
+
+https://github.com/sumitdy/MediCoreX
+
+---
+
+# 👨‍💻 Author
+
+## Sumit Dubey
+
+**Backend Developer | .NET Developer**
+
+Focused on building secure, maintainable, and scalable backend APIs using modern .NET technologies.
+
+---
