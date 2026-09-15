@@ -945,7 +945,7 @@ Swagger will be available at the URL displayed in the terminal after the API sta
 Navigate to the Angular project directory:
 
 ```bash
-cd <your-angular-project-directory>
+cd medicorex-ui
 ```
 
 Install dependencies:
