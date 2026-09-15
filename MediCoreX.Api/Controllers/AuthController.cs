@@ -16,11 +16,15 @@ namespace MediCoreX.Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterDto dto)
-        {
-            await _authService.RegisterAsync(dto);
-            return Ok("User registered successfully");
-        }
+public async Task<IActionResult> Register(RegisterDto dto)
+{
+    await _authService.RegisterAsync(dto);
+
+    return Ok(new
+    {
+        message = "User registered successfully"
+    });
+}
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)

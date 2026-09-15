@@ -65,6 +65,15 @@ namespace MediCoreX.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet("filter")]
+public async Task<IActionResult> GetPatients(
+    [FromQuery] PatientQueryParametersDto parameters)
+{
+    var result = await _service.GetPatientsAsync(parameters);
+
+    return Ok(result);
+}
+
         // 🔐 ADMIN ONLY — Pagination
         [HttpGet("paged")]
         public async Task<IActionResult> GetPaged(

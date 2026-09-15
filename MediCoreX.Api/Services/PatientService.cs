@@ -180,6 +180,70 @@ namespace MediCoreX.Api.Services
             return _mapper.Map<PatientDto>(patient);
         }
 
+      public async Task<object> GetPatientsAsync(
+    PatientQueryParametersDto parameters)
+{
+    IQueryable<Patient> query = _context.Patients;
+
+    // Search by patient name
+    if (!string.IsNullOrWhiteSpace(parameters.Search))
+    {
+        query = query.Where(p =>
+            p.FullName != null &&
+            p.FullName.Contains(parameters.Search));
+    }
+
+    // Filter by gender
+    if (!string.IsNullOrWhiteSpace(parameters.Gender))
+    {
+        query = query.Where(p =>
+            p.Gender == parameters.Gender);
+    }
+
+    // Sort patients
+    if (!string.IsNullOrWhiteSpace(parameters.SortBy))
+    {
+        if (parameters.SortBy.ToLower() == "age")
+        {
+            query = parameters.SortOrder?.ToLower() == "desc"
+                ? query.OrderByDescending(p => p.Age)
+                : query.OrderBy(p => p.Age);
+        }
+        else if (parameters.SortBy.ToLower() == "name")
+        {
+            query = parameters.SortOrder?.ToLower() == "desc"
+                ? query.OrderByDescending(p => p.FullName)
+                : query.OrderBy(p => p.FullName);
+        }
+    }
+
+    // Total records after filtering
+    var totalRecords = await query.CountAsync();
+
+    // Calculate records to skip
+    var skip = (parameters.Page - 1) * parameters.PageSize;
+
+    // Get current page records
+    var patients = await query
+        .Skip(skip)
+        .Take(parameters.PageSize)
+        .ToListAsync();
+
+    // Calculate total pages
+    var totalPages = (int)Math.Ceiling(
+        (double)totalRecords / parameters.PageSize
+    );
+
+    return new
+    {
+        page = parameters.Page,
+        pageSize = parameters.PageSize,
+        totalRecords = totalRecords,
+        totalPages = totalPages,
+        data = patients
+    };
+}
+      
         // 🔹 Delete patient (Admin only)
         public async Task<bool> DeleteAsync(int id)
         {

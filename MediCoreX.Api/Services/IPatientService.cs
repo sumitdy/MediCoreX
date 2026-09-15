@@ -18,5 +18,6 @@ namespace MediCoreX.Api.Services
         Task<PatientDto> AddAsync(CreatePatientDto dto);
         Task<PatientDto> UpdateAsync(int id, UpdatePatientDto dto);
         Task<bool> DeleteAsync(int id);
+        Task<object> GetPatientsAsync(PatientQueryParametersDto parameters);
     }
 }
