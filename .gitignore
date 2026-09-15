@@ -1,8 +1,17 @@
+# macOS
 .DS_Store
+
+# .NET
 **/bin/
 **/obj/
 .vs/
 *.user
 *.suo
 *.log
-.DS_Store
+
+# Angular / Node
+**/node_modules/
+**/dist/
+
+# Angular cache
+**/.angular/

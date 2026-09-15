@@ -1,0 +1,569 @@
+<div class="patients-page">
+
+  <!-- =========================================
+       PAGE HEADER
+  ========================================== -->
+
+  <div class="page-header">
+
+    <div>
+      <h1>Patient Management</h1>
+
+      <p>
+        Manage and organize patient records
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="add-button"
+      (click)="openAddForm()"
+    >
+      + Add Patient
+    </button>
+
+  </div>
+
+
+  <!-- =========================================
+       ERROR MESSAGE
+  ========================================== -->
+
+  <div
+    class="status-message"
+    *ngIf="errorMessage"
+  >
+    {{ errorMessage }}
+  </div>
+
+
+  <!-- =========================================
+       ADD / EDIT PATIENT FORM
+  ========================================== -->
+
+  <div
+    class="patient-form-card"
+    *ngIf="showAddForm"
+  >
+
+    <button
+      type="button"
+      class="close-button"
+      (click)="cancelForm()"
+      aria-label="Close"
+    >
+      ×
+    </button>
+
+
+    <h2>
+      {{
+        editingPatientId !== null
+          ? 'Edit Patient'
+          : 'Add New Patient'
+      }}
+    </h2>
+
+    <p>
+      {{
+        editingPatientId !== null
+          ? 'Update patient information below'
+          : 'Enter patient information below'
+      }}
+    </p>
+
+
+   <form
+  [formGroup]="addPatientForm"
+  (ngSubmit)="savePatient()"
+  class="patient-form"
+>
+
+      <!-- FULL NAME -->
+
+      <div class="form-group">
+
+        <label for="fullName">
+          Full Name
+        </label>
+
+        <input
+          id="fullName"
+          type="text"
+          formControlName="fullName"
+          placeholder="Enter full name"
+        />
+
+        <div
+          class="validation-message"
+          *ngIf="
+            addPatientForm.get('fullName')?.invalid &&
+            addPatientForm.get('fullName')?.touched
+          "
+        >
+
+          <span
+            *ngIf="
+              addPatientForm.get('fullName')?.errors?.['required']
+            "
+          >
+            Full name is required.
+          </span>
+
+          <span
+            *ngIf="
+              addPatientForm.get('fullName')?.errors?.['minlength']
+            "
+          >
+            Full name must be at least 3 characters.
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- AGE -->
+
+      <div class="form-group">
+
+        <label for="age">
+          Age
+        </label>
+
+        <input
+          id="age"
+          type="number"
+          formControlName="age"
+          placeholder="Enter age"
+        />
+
+        <div
+          class="validation-message"
+          *ngIf="
+            addPatientForm.get('age')?.invalid &&
+            addPatientForm.get('age')?.touched
+          "
+        >
+
+          <span
+            *ngIf="
+              addPatientForm.get('age')?.errors?.['required']
+            "
+          >
+            Age is required.
+          </span>
+
+          <span
+            *ngIf="
+              addPatientForm.get('age')?.errors?.['min']
+            "
+          >
+            Age must be at least 1.
+          </span>
+
+          <span
+            *ngIf="
+              addPatientForm.get('age')?.errors?.['max']
+            "
+          >
+            Age cannot be greater than 120.
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- GENDER -->
+
+      <div class="form-group">
+
+        <label for="gender">
+          Gender
+        </label>
+
+        <select
+          id="gender"
+          formControlName="gender"
+        >
+
+          <option value="">
+            Select gender
+          </option>
+
+          <option value="Male">
+            Male
+          </option>
+
+          <option value="Female">
+            Female
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
+        </select>
+
+        <div
+          class="validation-message"
+          *ngIf="
+            addPatientForm.get('gender')?.invalid &&
+            addPatientForm.get('gender')?.touched
+          "
+        >
+          Gender is required.
+        </div>
+
+      </div>
+
+
+      <!-- FORM ACTIONS -->
+
+      <div class="form-actions">
+
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="cancelForm()"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="save-button"
+          [disabled]="addPatientForm.invalid || loading"
+        >
+          {{
+            editingPatientId !== null
+              ? 'Update Patient'
+              : 'Save Patient'
+          }}
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+
+  <!-- =========================================
+       SEARCH / FILTER / SORT
+  ========================================== -->
+
+  <div class="search-card">
+
+    <div class="search-wrapper">
+
+      <span class="search-icon">
+        ⌕
+      </span>
+
+      <input
+        type="text"
+        placeholder="Search patients by name..."
+        [(ngModel)]="searchName"
+        (keyup.enter)="search()"
+      />
+
+    </div>
+
+
+    <!-- GENDER -->
+
+    <select
+      class="gender-filter"
+      [(ngModel)]="selectedGender"
+      (change)="search()"
+    >
+
+      <option value="">
+        All Genders
+      </option>
+
+      <option value="Male">
+        Male
+      </option>
+
+      <option value="Female">
+        Female
+      </option>
+
+      <option value="Other">
+        Other
+      </option>
+
+    </select>
+
+
+    <!-- SORT BY -->
+
+    <select
+      class="sort-filter"
+      [(ngModel)]="selectedSortBy"
+      (change)="search()"
+    >
+
+      <option value="">
+        Sort By
+      </option>
+
+      <option value="name">
+        Name
+      </option>
+
+      <option value="age">
+        Age
+      </option>
+
+    </select>
+
+
+    <!-- SORT ORDER -->
+
+    <select
+      class="sort-filter"
+      [(ngModel)]="selectedSortOrder"
+      (change)="search()"
+    >
+
+      <option value="asc">
+        Ascending
+      </option>
+
+      <option value="desc">
+        Descending
+      </option>
+
+    </select>
+
+
+    <!-- SEARCH -->
+
+    <button
+      type="button"
+      class="search-button"
+      (click)="search()"
+    >
+      Search
+    </button>
+
+
+    <!-- CLEAR -->
+
+    <button
+      type="button"
+      class="clear-button"
+      *ngIf="
+        searchName ||
+        selectedGender ||
+        selectedSortBy ||
+        selectedSortOrder !== 'asc'
+      "
+      (click)="clearSearch()"
+    >
+      Clear
+    </button>
+
+  </div>
+
+
+  <!-- =========================================
+       PATIENT TABLE
+  ========================================== -->
+
+  <div class="table-card">
+
+
+    <!-- TABLE HEADER -->
+
+    <div class="table-header">
+
+      <h2>
+        Patients
+      </h2>
+
+      <span class="patient-count">
+        {{ totalRecords }} records
+      </span>
+
+    </div>
+
+
+    <!-- LOADING -->
+
+    <div
+      class="loading"
+      *ngIf="loading"
+    >
+      Loading patients...
+    </div>
+
+
+    <!-- TABLE -->
+
+    <div
+      class="table-wrapper"
+      *ngIf="!loading && patients.length > 0"
+    >
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Patient Name
+            </th>
+
+            <th>
+              Age
+            </th>
+
+            <th>
+              Gender
+            </th>
+
+            <th>
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr
+            *ngFor="let p of patients"
+          >
+
+            <!-- NAME -->
+
+            <td>
+
+              <div class="patient-name">
+
+                <span>
+                  {{ p.fullName }}
+                </span>
+
+              </div>
+
+            </td>
+
+
+            <!-- AGE -->
+
+            <td>
+              {{ p.age }}
+            </td>
+
+
+            <!-- GENDER -->
+
+            <td>
+
+              <span class="gender-badge">
+                {{ p.gender }}
+              </span>
+
+            </td>
+
+
+            <!-- ACTIONS -->
+
+            <td>
+
+              <div class="action-buttons">
+
+                <button
+                  type="button"
+                  class="edit-button"
+                  (click)="editPatient(p)"
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  class="delete-button"
+                  (click)="deletePatient(p.id)"
+                >
+                  Delete
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <!-- EMPTY STATE -->
+
+    <div
+      class="empty-state"
+      *ngIf="!loading && patients.length === 0"
+    >
+
+      <div class="empty-state-icon">
+        🩺
+      </div>
+
+      <h3>
+        No patients found
+      </h3>
+
+      <p>
+        Try changing your search or filter criteria.
+      </p>
+
+    </div>
+
+
+    <!-- PAGINATION -->
+
+    <div class="pagination">
+
+      <button
+        type="button"
+        (click)="prev()"
+        [disabled]="page === 1 || loading"
+      >
+        ← Previous
+      </button>
+
+
+      <span>
+        Page
+        <strong>{{ page }}</strong>
+        of
+        <strong>{{ totalPages }}</strong>
+      </span>
+
+
+      <button
+        type="button"
+        (click)="next()"
+        [disabled]="page === totalPages || loading"
+      >
+        Next →
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

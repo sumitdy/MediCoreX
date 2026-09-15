@@ -1,0 +1,216 @@
+<div class="dashboard-page">
+
+  <!-- HEADER -->
+  <div class="dashboard-header">
+
+    <div>
+      <h1>Dashboard</h1>
+      <p>Welcome back to MediCoreX</p>
+    </div>
+
+  </div>
+
+
+  <!-- ERROR -->
+  <div
+    class="status-message error"
+    *ngIf="errorMessage">
+
+    {{ errorMessage }}
+
+  </div>
+
+
+  <!-- STAT CARDS -->
+  <div class="stats-grid">
+
+
+    <!-- TOTAL PATIENTS -->
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        <span class="total-icon">+</span>
+      </div>
+
+      <div>
+
+        <p>Total Patients</p>
+
+        <h2 *ngIf="!loading">
+          {{ totalPatients }}
+        </h2>
+
+        <h2 *ngIf="loading">
+          ...
+        </h2>
+
+      </div>
+
+    </div>
+
+
+    <!-- MALE PATIENTS -->
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        <span class="male-icon">M</span>
+      </div>
+
+      <div>
+
+        <p>Male Patients</p>
+
+        <h2 *ngIf="!loading">
+          {{ malePatients }}
+        </h2>
+
+        <h2 *ngIf="loading">
+          ...
+        </h2>
+
+      </div>
+
+    </div>
+
+
+    <!-- FEMALE PATIENTS -->
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        <span class="female-icon">F</span>
+      </div>
+
+      <div>
+
+        <p>Female Patients</p>
+
+        <h2 *ngIf="!loading">
+          {{ femalePatients }}
+        </h2>
+
+        <h2 *ngIf="loading">
+          ...
+        </h2>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- RECENT PATIENTS -->
+  <div class="dashboard-card">
+
+    <!-- CARD HEADER -->
+    <div class="card-header">
+
+      <div>
+        <h2>Recent Patients</h2>
+        <p>Recently added patient records</p>
+      </div>
+
+      <button routerLink="/patients">
+        View All
+      </button>
+
+    </div>
+
+
+    <!-- TABLE -->
+    <div class="recent-patients">
+
+      <div class="table-container">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Patient Name</th>
+              <th>Age</th>
+              <th>Gender</th>
+            </tr>
+
+          </thead>
+
+
+          <tbody>
+
+            <tr
+              *ngFor="let patient of recentPatients"
+            >
+
+              <!-- PATIENT NAME -->
+              <td>
+
+                <div class="patient-name">
+
+                  <span>
+                    {{ patient.fullName }}
+                  </span>
+
+                </div>
+
+              </td>
+
+
+              <!-- AGE -->
+              <td>
+                {{ patient.age }}
+              </td>
+
+
+              <!-- GENDER -->
+              <td>
+
+                <span class="gender-badge">
+                  {{ patient.gender }}
+                </span>
+
+              </td>
+
+            </tr>
+
+
+            <!-- EMPTY -->
+            <tr
+              *ngIf="
+                !loading &&
+                recentPatients.length === 0
+              "
+            >
+
+              <td
+                colspan="3"
+                class="empty-state"
+              >
+                No patients found.
+              </td>
+
+            </tr>
+
+
+            <!-- LOADING -->
+            <tr *ngIf="loading">
+
+              <td
+                colspan="3"
+                class="empty-state"
+              >
+                Loading patients...
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

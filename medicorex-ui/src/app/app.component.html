@@ -1,0 +1,61 @@
+<!-- NAVBAR -->
+<nav
+  class="navbar"
+  *ngIf="router.url !== '/login' && router.url !== '/register'"
+>
+
+  <div class="navbar-brand">
+
+    <div class="brand-icon">
+      ✚
+    </div>
+
+    <div>
+      <div class="brand-name">
+        MediCoreX
+      </div>
+
+      <div class="brand-subtitle">
+        Healthcare Management
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="navbar-actions">
+
+    <button
+      class="nav-button"
+      routerLink="/dashboard"
+    >
+      Dashboard
+    </button>
+
+
+    <button
+      class="nav-button"
+      routerLink="/patients"
+    >
+      Patients
+    </button>
+
+
+    <button
+      class="logout-button"
+      (click)="logout()"
+    >
+      Logout
+    </button>
+
+  </div>
+
+</nav>
+
+
+<!-- PAGE CONTENT -->
+<main class="main-content">
+
+  <router-outlet></router-outlet>
+
+</main>

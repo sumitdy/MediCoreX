@@ -1,0 +1,1056 @@
+/* =========================================
+   PATIENTS PAGE
+========================================= */
+
+.patients-page {
+  min-height: 100vh;
+
+  padding: 30px;
+
+  background: #f5f8fb;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 25px;
+}
+
+.page-header h1 {
+  margin: 0;
+
+  font-size: 28px;
+  font-weight: 700;
+
+  color: #102a43;
+}
+
+.page-header p {
+  margin: 6px 0 0;
+
+  font-size: 14px;
+
+  color: #627d98;
+}
+
+
+/* =========================================
+   ADD BUTTON
+========================================= */
+
+.add-button {
+  min-height: 42px;
+
+  padding: 0 18px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #168aad;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.add-button:hover {
+  background: #11758f;
+}
+
+.add-button:active {
+  transform: scale(0.98);
+}
+
+
+/* =========================================
+   STATUS MESSAGE
+========================================= */
+
+.status-message {
+  margin-bottom: 20px;
+
+  padding: 12px 16px;
+
+  border-radius: 8px;
+
+  background: #fff4f4;
+
+  border: 1px solid #f5c2c2;
+
+  color: #b42318;
+
+  font-size: 14px;
+}
+
+
+/* =========================================
+   SEARCH CARD
+========================================= */
+
+.search-card {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 24px;
+
+  padding: 16px;
+
+  background: white;
+
+  border: 1px solid #e3ebf2;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 2px 8px rgba(16, 42, 67, 0.04);
+}
+
+
+/* =========================================
+   SEARCH INPUT
+========================================= */
+
+.search-wrapper {
+  position: relative;
+
+  flex: 1;
+}
+
+.search-icon {
+  position: absolute;
+
+  left: 14px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  font-size: 20px;
+
+  color: #829ab1;
+
+  pointer-events: none;
+}
+
+.search-wrapper input {
+  width: 100%;
+  height: 44px;
+
+  box-sizing: border-box;
+
+  padding: 0 14px 0 42px;
+
+  border: 1px solid #d9e2ec;
+
+  border-radius: 9px;
+
+  background: #f8fafc;
+
+  color: #243b53;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition: 0.2s ease;
+}
+
+.search-wrapper input::placeholder {
+  color: #829ab1;
+}
+
+.search-wrapper input:focus {
+  border-color: #168aad;
+
+  background: white;
+
+  box-shadow:
+    0 0 0 3px rgba(22, 138, 173, 0.1);
+}
+
+
+/* =========================================
+   FILTER DROPDOWNS
+========================================= */
+
+.gender-filter,
+.sort-filter {
+  min-width: 145px;
+
+  height: 44px;
+
+  padding: 0 14px;
+
+  border: 1px solid #d9e2ec;
+
+  border-radius: 9px;
+
+  background: #f8fafc;
+
+  color: #334e68;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  outline: none;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.gender-filter:hover,
+.sort-filter:hover {
+  border-color: #b8c7d1;
+}
+
+.gender-filter:focus,
+.sort-filter:focus {
+  border-color: #168aad;
+
+  background: white;
+
+  box-shadow:
+    0 0 0 3px rgba(22, 138, 173, 0.1);
+}
+
+
+/* =========================================
+   SEARCH BUTTON
+========================================= */
+
+.search-button {
+  height: 44px;
+
+  padding: 0 20px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: #168aad;
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.search-button:hover {
+  background: #11758f;
+}
+
+.search-button:active {
+  transform: scale(0.98);
+}
+
+
+/* =========================================
+   CLEAR BUTTON
+========================================= */
+
+.clear-button {
+  height: 44px;
+
+  padding: 0 18px;
+
+  border: 1px solid #d9e2ec;
+
+  border-radius: 9px;
+
+  background: white;
+
+  color: #627d98;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.clear-button:hover {
+  background: #f5f8fb;
+
+  border-color: #bcccdc;
+
+  color: #334e68;
+}
+
+
+/* =========================================
+   PATIENT FORM CARD
+========================================= */
+
+.patient-form-card {
+  position: relative;
+
+  margin-bottom: 24px;
+
+  padding: 26px 28px;
+
+  background: white;
+
+  border: 1px solid #e3ebf2;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 2px 8px rgba(16, 42, 67, 0.04);
+}
+
+.patient-form-card h2 {
+  margin: 0;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  color: #102a43;
+}
+
+.patient-form-card > p {
+  margin: 6px 0 22px;
+
+  font-size: 14px;
+
+  color: #627d98;
+}
+
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.close-button {
+  position: absolute;
+
+  top: 20px;
+  right: 22px;
+
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid #d9e2ec;
+
+  border-radius: 7px;
+
+  background: white;
+
+  color: #627d98;
+
+  font-size: 18px;
+  font-weight: 600;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.close-button:hover {
+  background: #f5f8fb;
+
+  border-color: #bcccdc;
+
+  color: #243b53;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.patient-form {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 7px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #486581;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  height: 44px;
+
+  box-sizing: border-box;
+
+  padding: 0 13px;
+
+  border: 1px solid #d9e2ec;
+
+  border-radius: 8px;
+
+  background: #f8fafc;
+
+  color: #243b53;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition: 0.2s ease;
+}
+
+.form-group input::placeholder {
+  color: #829ab1;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #168aad;
+
+  background: white;
+
+  box-shadow:
+    0 0 0 3px rgba(22, 138, 173, 0.1);
+}
+
+
+/* =========================================
+   VALIDATION
+========================================= */
+
+.validation-message {
+  margin-top: 5px;
+
+  font-size: 12px;
+
+  color: #d92d20;
+}
+
+
+/* =========================================
+   FORM ACTIONS
+========================================= */
+
+.form-actions {
+  grid-column: 1 / -1;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 4px;
+}
+
+.save-button {
+  height: 42px;
+
+  padding: 0 20px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #168aad;
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.save-button:hover:not(:disabled) {
+  background: #11758f;
+}
+
+.save-button:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+.cancel-button {
+  height: 42px;
+
+  padding: 0 20px;
+
+  border: 1px solid #d9e2ec;
+
+  border-radius: 8px;
+
+  background: white;
+
+  color: #627d98;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.cancel-button:hover {
+  background: #f5f8fb;
+
+  border-color: #bcccdc;
+
+  color: #334e68;
+}
+
+
+/* =========================================
+   TABLE CARD
+========================================= */
+
+.table-card {
+  overflow: hidden;
+
+  background: white;
+
+  border: 1px solid #e3ebf2;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 2px 8px rgba(16, 42, 67, 0.04);
+}
+
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.table-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 18px 24px;
+
+  border-bottom: 1px solid #e3ebf2;
+}
+
+.table-header h2 {
+  margin: 0;
+
+  font-size: 19px;
+  font-weight: 700;
+
+  color: #102a43;
+}
+
+.patient-count {
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #829ab1;
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  min-width: 700px;
+}
+
+thead {
+  background: #f8fafc;
+}
+
+th {
+  padding: 12px 20px;
+
+  text-align: left;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.4px;
+
+  color: #627d98;
+
+  border-bottom: 1px solid #e3ebf2;
+}
+
+td {
+  padding: 12px 20px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  color: #334e68;
+
+  border-bottom: 1px solid #edf2f7;
+}
+
+tbody tr {
+  transition: 0.15s ease;
+}
+
+tbody tr:hover {
+  background: #f8fbfd;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* =========================================
+   PATIENT NAME
+========================================= */
+
+.patient-name {
+  font-weight: 600;
+
+  color: #243b53;
+}
+
+
+/* =========================================
+   GENDER BADGE
+========================================= */
+
+.gender-badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  background: #edf7f9;
+
+  color: #147d75;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.action-buttons {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+.edit-button,
+.delete-button {
+  height: 34px;
+
+  padding: 0 12px;
+
+  border-radius: 7px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.edit-button {
+  border: 1px solid #cbd5e1;
+
+  background: white;
+
+  color: #334e68;
+}
+
+.edit-button:hover {
+  background: #f1f5f9;
+
+  border-color: #9fb3c8;
+}
+
+.delete-button {
+  border: 1px solid #f0b4b4;
+
+  background: #fff7f7;
+
+  color: #c53030;
+}
+
+.delete-button:hover {
+  background: #fff0f0;
+
+  border-color: #e08080;
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty-state {
+  padding: 50px 20px;
+
+  text-align: center;
+}
+
+.empty-state-icon {
+  margin-bottom: 12px;
+
+  font-size: 36px;
+}
+
+.empty-state h3 {
+  margin: 0 0 6px;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  color: #334e68;
+}
+
+.empty-state p {
+  margin: 0;
+
+  font-size: 13px;
+
+  color: #829ab1;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.loading {
+  padding: 35px;
+
+  text-align: center;
+
+  font-size: 14px;
+
+  color: #627d98;
+}
+
+
+/* =========================================
+   PAGINATION
+========================================= */
+
+.pagination {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 18px;
+
+  padding: 18px 20px;
+
+  border-top: 1px solid #e3ebf2;
+
+  background: #fbfdff;
+}
+
+.pagination button {
+  height: 38px;
+
+  padding: 0 15px;
+
+  border: 1px solid #d9e2ec;
+
+  border-radius: 8px;
+
+  background: white;
+
+  color: #334e68;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #f1f5f9;
+
+  border-color: #bcccdc;
+}
+
+.pagination button:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+}
+
+.pagination span {
+  min-width: 100px;
+
+  text-align: center;
+
+  font-size: 13px;
+
+  color: #627d98;
+}
+
+.pagination strong {
+  color: #243b53;
+}
+
+
+/* =========================================
+   RESPONSIVE - TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+  .patients-page {
+    padding: 22px;
+  }
+
+  .search-card {
+    flex-wrap: wrap;
+  }
+
+  .search-wrapper {
+    flex-basis: 100%;
+  }
+
+  .gender-filter,
+  .sort-filter {
+    flex: 1;
+  }
+
+  .patient-form {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE - MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+  .patients-page {
+    padding: 16px;
+  }
+
+
+  /* Header */
+
+  .page-header {
+    align-items: flex-start;
+
+    gap: 15px;
+  }
+
+  .page-header h1 {
+    font-size: 23px;
+  }
+
+  .page-header p {
+    font-size: 13px;
+  }
+
+  .add-button {
+    padding: 0 14px;
+
+    white-space: nowrap;
+  }
+
+
+  /* Search */
+
+  .search-card {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 10px;
+
+    padding: 14px;
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .gender-filter,
+  .sort-filter {
+    width: 100%;
+
+    min-width: 0;
+
+    min-height: 44px;
+  }
+
+  .search-button,
+  .clear-button {
+    width: 100%;
+  }
+
+
+  /* Form */
+
+  .patient-form-card {
+    padding: 20px;
+  }
+
+  .close-button {
+    top: 16px;
+    right: 16px;
+  }
+
+  .patient-form {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    grid-column: auto;
+
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .save-button,
+  .cancel-button {
+    width: 100%;
+  }
+
+
+  /* Table */
+
+  .table-header {
+    padding: 15px;
+  }
+
+  .table-header h2 {
+    font-size: 16px;
+  }
+
+  .patient-count {
+    font-size: 12px;
+  }
+
+  th,
+  td {
+    padding: 12px 14px;
+  }
+
+
+  /* Pagination */
+
+  .pagination {
+    gap: 10px;
+
+    padding: 15px 10px;
+  }
+
+  .pagination button {
+    padding: 0 10px;
+  }
+
+  .pagination span {
+    min-width: 80px;
+
+    font-size: 12px;
+  }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 400px) {
+
+  .patients-page {
+    padding: 12px;
+  }
+
+  .page-header {
+    flex-direction: column;
+  }
+
+  .add-button {
+    width: 100%;
+  }
+
+  .pagination {
+    gap: 6px;
+  }
+
+  .pagination button {
+    padding: 0 8px;
+
+    font-size: 12px;
+  }
+
+  .pagination span {
+    min-width: 70px;
+  }
+}
