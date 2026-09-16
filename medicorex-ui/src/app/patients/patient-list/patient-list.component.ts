@@ -11,6 +11,7 @@ import { PatientService } from '../../core/services/patient.service';
 import { Patient } from '../../core/models/patient.model';
 import { CreatePatient } from '../../core/models/create-patient.model';
 import { UpdatePatient } from '../../core/models/update-patient.model';
+import { AiService } from '../../core/services/ai.service';
 
 @Component({
   selector: 'app-patient-list',
@@ -36,6 +37,10 @@ export class PatientListComponent implements OnInit {
   loading = false;
   errorMessage = '';
 
+  aiSummary = '';
+aiPatientName = '';
+showAiSummary = false;
+
   searchName = '';
   selectedGender = '';
   selectedSortBy = '';
@@ -51,7 +56,8 @@ export class PatientListComponent implements OnInit {
 
   constructor(
     private service: PatientService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private aiService: AiService
   ) {
 
     this.addPatientForm = this.fb.group({
@@ -501,7 +507,35 @@ export class PatientListComponent implements OnInit {
       });
   }
 
+  
+generateAiSummary(patient: Patient): void {
+  this.loading = true;
+  this.errorMessage = '';
+  this.showAiSummary = false;
 
+  this.aiService.generatePatientSummary(
+    patient.fullName,
+    patient.age,
+    patient.gender
+  )
+  .subscribe({
+    next: (res) => {
+      console.log('AI Summary:', res);
+
+      this.aiPatientName = res.patientName;
+      this.aiSummary = res.summary;
+      this.showAiSummary = true;
+
+      this.loading = false;
+    },
+    error: (error) => {
+      console.error('AI Summary failed:', error);
+
+      this.loading = false;
+      this.errorMessage = 'Failed to generate AI summary.';
+    }
+  });
+}
   // ========================================
   // FORM VALIDATION
   // ========================================

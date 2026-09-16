@@ -40,6 +40,7 @@ builder.Services.Configure<AdminSettings>(
 
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IAiService, AiService>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();

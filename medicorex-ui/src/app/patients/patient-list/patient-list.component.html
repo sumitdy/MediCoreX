@@ -73,11 +73,11 @@
     </p>
 
 
-   <form
-  [formGroup]="addPatientForm"
-  (ngSubmit)="savePatient()"
-  class="patient-form"
->
+    <form
+      [formGroup]="addPatientForm"
+      (ngSubmit)="savePatient()"
+      class="patient-form"
+    >
 
       <!-- FULL NAME -->
 
@@ -372,6 +372,53 @@
 
 
   <!-- =========================================
+       AI PATIENT SUMMARY
+  ========================================== -->
+
+  <div
+    class="ai-summary-card"
+    *ngIf="showAiSummary"
+  >
+
+    <div class="ai-summary-header">
+
+      <div>
+
+        <span class="ai-title">
+          ✨ AI Patient Summary
+        </span>
+
+        <h2>
+          {{ aiPatientName }}
+        </h2>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="ai-close-button"
+        (click)="showAiSummary = false"
+        aria-label="Close AI summary"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="ai-summary-content">
+
+      <p>
+        {{ aiSummary }}
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
        PATIENT TABLE
   ========================================== -->
 
@@ -393,7 +440,7 @@
     </div>
 
 
-    <!-- LOADING -->
+    <!-- TABLE LOADING -->
 
     <div
       class="loading"
@@ -443,7 +490,7 @@
             *ngFor="let p of patients"
           >
 
-            <!-- NAME -->
+            <!-- PATIENT NAME -->
 
             <td>
 
@@ -490,12 +537,22 @@
                   Edit
                 </button>
 
+
                 <button
                   type="button"
                   class="delete-button"
                   (click)="deletePatient(p.id)"
                 >
                   Delete
+                </button>
+
+
+                <button
+                  type="button"
+                  class="ai-button"
+                  (click)="generateAiSummary(p)"
+                >
+                  ✨ AI Summary
                 </button>
 
               </div>

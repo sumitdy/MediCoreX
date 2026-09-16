@@ -34,6 +34,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: "server=mysql;port=3306;database=medicorex_db;user=root;password=root123"
+      Gemini__ApiKey: ${GEMINI_API_KEY}
 
     depends_on:
       mysql:
